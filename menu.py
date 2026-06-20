@@ -77,7 +77,8 @@ def submenu_usuarios(sistema):
             apellido = input("Apellido: ")
             dni = input("DNI: ")
             correo_electronico = input("Correo electrónico: ")
-            sistema.agregar_usuario(nombre, apellido, dni, correo_electronico)
+            edad = input("Edad: ")
+            sistema.agregar_usuario(nombre, apellido, dni, correo_electronico,edad)
         
         elif opcion == "2":
             sistema.listar_usuarios()

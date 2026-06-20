@@ -1,11 +1,11 @@
 from libro import Libro
-#from usuario import Lector
-#from prestamo import Prestamo
+from usuario import Lector
+from prestamo import Prestamo
 
 
 
 class Biblioteca: #Clase gestora/contenedora de listas, libros, usuarios, prestamos, etc etc
-    def init(self):
+    def __init__(self):
         self.libros = []
         self.lectores = []
         self.prestamos = []
@@ -38,27 +38,28 @@ class Biblioteca: #Clase gestora/contenedora de listas, libros, usuarios, presta
     #-------------------Gestión de prestamos---------------------
     def prestar_libro(self,isbn,dni):
         libro_buscado = None
-        lector_buscado= None
+        lector_buscado = None
 
-        for libro in self.libros: #Se busca al libro y que este disponible
-            if libro.isbn == isbn and libro.activo== True and libro.disponibilidad == True:
+        for libro in self.libros:
+            if libro.isbn == isbn and libro.activo == True and libro.disponibilidad == True:
                 libro_buscado = libro
                 break
-        else:
-            print("Libro no disponible.")
-            return
 
-        for lector in self.lectores: #Se busca al lector(usuario)
+        for lector in self.lectores:
             if lector.dni == dni:
                 lector_buscado = lector
                 break
-        else: 
+
+        if libro_buscado is None:
+            print("Libro no disponible.")
+            return
+        if lector_buscado is None:
             print("Usuario no encontrado.")
             return
         #Si se encontró el libro y el usuario
         libro_buscado.prestar()
-        #nuevo_prestamo = Prestamo(libro_buscado,lector_buscado) #Registramos el prestamo
-        #self.prestamos.append(nuevo_prestamo) #Se agrega a la lista de prestamos
+        nuevo_prestamo = Prestamo(libro_buscado,lector_buscado) #Registramos el prestamo
+        self.prestamos.append(nuevo_prestamo) #Se agrega a la lista de prestamos
         print("Prestamo registrado!")
 
     def devolver_libro(self,isbn):
@@ -76,14 +77,14 @@ class Biblioteca: #Clase gestora/contenedora de listas, libros, usuarios, presta
                 prestamo.mostrar_datos()
 
     #-----------Usuarios-------------
-    def listar_usarios(self): #Operacion listado de usaurio (REQUERIDA)
+    def listar_usuarios(self): #Operacion listado de usaurio (REQUERIDA)
         for lector in self.lectores:
                 lector.mostrar_datos()
 
-    def agregar_usuario(self):
-        #nuevo_lector = Lector(nombre,apellido,dni,corre_electronico)
-        #self.lectores.append(nuevo_lector)
-        #print("Usuario registrado!")   
+    def agregar_usuario(self,nombre,apellido,dni,corre_electronico,edad):
+        nuevo_lector = Lector(nombre,apellido,dni,corre_electronico,edad)
+        self.lectores.append(nuevo_lector)
+        print("Usuario registrado!")   
         pass
 
     def dar_baja_usuario(self,dni):
